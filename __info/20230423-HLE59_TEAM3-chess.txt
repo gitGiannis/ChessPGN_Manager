@@ -1,6 +1,0 @@
-HLE59-3
-
-1. Υλοποίηση σε Pycharm
-2. Απεικόνιση ταμπλό με το tkinter
-3. unit tests (test driven development) π.χ. με την unittest (ενσωματωμένη) ή την pytest
-4. Δείτε το https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/
