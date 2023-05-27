@@ -1,4 +1,5 @@
 .idea
+venv
 __testing.py
 app_update.py
 pip3w
