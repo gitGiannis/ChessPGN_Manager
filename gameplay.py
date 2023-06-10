@@ -122,8 +122,7 @@ class Gameplay:
         # επαύξηση γύρου
         self.round += 1
         # στήσιμο των κομματιών
-        self.brd.set_pieces()
-        self.brd.update_squares()
+        self.brd.update_self()
         # εναλλαγή δείκτη παίκτη που πρόκειται να παίξει (λευκός - μαύρος)
         if self.round % 2 == 0:
             tag = "w"

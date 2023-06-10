@@ -11,13 +11,13 @@ class Board:
 
     Μέθοδοι:
     --------
-        set_pieces(self):
-            διατρέχει τα κομμάτια και τα τοποθετεί στο πινάκιο (ταμπλό)
+        update_self(self):
+            διατρέχει τα κομμάτια και ενημερώνει το ταμπλό με τις νέες θέσεις
 
         move_piece(self, src: str, dest: str) -> str:
             μετακινεί το κομμάτι που πρέπει να κινηθεί, επιστρέφει το όνομά του κομματιού που αιχμαλωτίστηκε
 
-        update_squares(self):
+        __update_squares(self):
             ενημερώνει το λεξικό κενών και κατηλλειμένων κελιών
     """
     def __init__(self):
@@ -79,13 +79,14 @@ class Board:
         # θα χρησιμεύσει στον έλεγχο της εγκυρότητας των κινήσεων των κομματιών της κλάσης Gameplay
         self.squares = {}
 
-    def set_pieces(self):
+    def update_self(self):
         """
         Διατρέχει τα κομμάτια και τα τοποθετεί στο πινάκιο (ταμπλό)
         Σε κάθε γύρο, γίνεται προσπέλαση των κομματιών για να τοποθετηθούν στη νέα τους θέση, σε περίπτωση που αυτή έχει
         αλλάξει
         """
         for piece in self.pieces:
+            self.__update_squares(piece)
             # γίνεται ομαδοποίηση ελέγχων ανα στήλη για λιγότερους ελέγχους
             # στήλη A
             if piece.pos[0] == "a":
@@ -294,16 +295,14 @@ class Board:
                 break
         return piece_dest_name_to_return
 
-    def update_squares(self):
+    def __update_squares(self, piece):
         """
         Ενημερώνει το λεξικό κενών και κατηλλειμένων κελιών
         Το λεξικό self.squares (dict) περιέχει τα ονόματα των κελιών και την τιμή καθενός (True/False)
         Εάν το κελί έχει κάποιο ενεργό κομμάτι, χαρακτηρίζεται ως True, διαφορετικά (αν είναι κενό) False
         """
-        # προσπέλαση των κομματιών
-        for piece in self.pieces:
-            # εάν το κελί έχει κάποιο ενεργό κομμάτι, χαρακτηρίζεται ως True, διαφορετικά αν είναι κενό False
-            if piece.state:
-                self.squares[piece.pos] = True
-            else:
-                self.squares[piece.pos] = False
+        # εάν το κελί έχει κάποιο ενεργό κομμάτι, χαρακτηρίζεται ως True, διαφορετικά αν είναι κενό False
+        if piece.state:
+            self.squares[piece.pos] = True
+        else:
+            self.squares[piece.pos] = False
