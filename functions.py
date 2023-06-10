@@ -133,7 +133,8 @@ def show_credits():
     """
     showinfo(title="Credits",
              message="Developers:\n"
-                     ">> Moiris Ioannis\n",
+                     ">> Moiris Ioannis\n"
+                     ">> Soundias Panagiotis\n",
              detail="Special Thanks To:\n"
                      ">> Gkogkos Christos, for the help provided")
 

@@ -38,6 +38,8 @@ class ManualGameSelector(Frame):
         super().__init__()
         # ορισμός master του frame
         self.root = root
+        # ενεργοποίηση επιλογής "back" στο μενού μπάρας
+        self.root.file_menu.entryconfig(5, state="normal", command=self.retrieve_master)
 
         # αρχικοποίηση αντικειμένων που θα χρειαστούν ------------------------------------------------------------------
         self.file = FilePGN(pgn_filepath)
@@ -140,5 +142,6 @@ class ManualGameSelector(Frame):
         self.root.file_menu.entryconfig(0, state="normal")
         self.root.file_menu.entryconfig(1, state="normal")
         self.root.file_menu.entryconfig(3, state="normal")
+        self.root.file_menu.entryconfig(5, state="disabled")
         # τερματισμός τρέχοντος frame
         self.destroy()

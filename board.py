@@ -25,22 +25,18 @@ class Board:
         self.pieces = [
             # κομμάτια "λευκού" παίκτη
             Piece("rwl", "a1", row=7, col=0), Piece("nwl", "b1", row=7, col=1), Piece("bwl", "c1", row=7, col=2),
-            Piece("qwl", "d1", row=7, col=3),
-            Piece("kwr", "e1", row=7, col=4), Piece("bwr", "f1", row=7, col=5), Piece("nwr", "g1", row=7, col=6),
-            Piece("rwr", "h1", row=7, col=7),
+            Piece("qwl", "d1", row=7, col=3), king_w := Piece("kwr", "e1", row=7, col=4),
+            Piece("bwr", "f1", row=7, col=5), Piece("nwr", "g1", row=7, col=6), Piece("rwr", "h1", row=7, col=7),
             Piece("pw1", "a2", row=6, col=0), Piece("pw2", "b2", row=6, col=1), Piece("pw3", "c2", row=6, col=2),
-            Piece("pw4", "d2", row=6, col=3),
-            Piece("pw5", "e2", row=6, col=4), Piece("pw6", "f2", row=6, col=5), Piece("pw7", "g2", row=6, col=6),
-            Piece("pw8", "h2", row=6, col=7),
+            Piece("pw4", "d2", row=6, col=3), Piece("pw5", "e2", row=6, col=4), Piece("pw6", "f2", row=6, col=5),
+            Piece("pw7", "g2", row=6, col=6), Piece("pw8", "h2", row=6, col=7),
             # κομμάτια "μαύρου" παίκτη
             Piece("rbl", "a8", row=0, col=0), Piece("nbl", "b8", row=0, col=1), Piece("bbl", "c8", row=0, col=2),
-            Piece("qbl", "d8", row=0, col=3),
-            Piece("kbr", "e8", row=0, col=4), Piece("bbr", "f8", row=0, col=5), Piece("nbr", "g8", row=0, col=6),
-            Piece("rbr", "h8", row=0, col=7),
+            Piece("qbl", "d8", row=0, col=3), king_b := Piece("kbr", "e8", row=0, col=4),
+            Piece("bbr", "f8", row=0, col=5), Piece("nbr", "g8", row=0, col=6), Piece("rbr", "h8", row=0, col=7),
             Piece("pb1", "a7", row=1, col=0), Piece("pb2", "b7", row=1, col=1), Piece("pb3", "c7", row=1, col=2),
-            Piece("pb4", "d7", row=1, col=3),
-            Piece("pb5", "e7", row=1, col=4), Piece("pb6", "f7", row=1, col=5), Piece("pb7", "g7", row=1, col=6),
-            Piece("pb8", "h7", row=1, col=7)
+            Piece("pb4", "d7", row=1, col=3), Piece("pb5", "e7", row=1, col=4), Piece("pb6", "f7", row=1, col=5),
+            Piece("pb7", "g7", row=1, col=6), Piece("pb8", "h7", row=1, col=7)
         ]
 
         # αρχικοποίηση κενών κελιών
@@ -73,6 +69,10 @@ class Board:
             [None, None, None, None, None, None, None, None]   # 1
             #  a     b     c     d     e     f     g     h
         ]
+
+        # λεξικό με τις διευθύνσεις των βασιλιάδων για πιο εύκολη εύρεση
+        self.kings = {"w": king_w,
+                      "b": king_b}
 
         # λεξικό που θα συσσωρεύσει τα ονόματα των κελιών (θέσεις [pos] της σκακιέρας)
         # και την κατάσταση τους (state [True/False]) (εάν περιέχουν κομμάτι True, εάν περιέχουν decoy False)

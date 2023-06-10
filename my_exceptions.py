@@ -11,6 +11,9 @@ class PositionReached(Exception):
     def __init__(self):
         super().__init__()
 
+    def __str__(self):
+        return "PositionReached (Exception): 'arrived one move before limit (1 ~ len-1)'"
+
 
 class NoMovesFound(Exception):
     """
@@ -20,11 +23,22 @@ class NoMovesFound(Exception):
     def __init__(self):
         super().__init__()
 
+    def __str__(self):
+        return "NoMovesFound (Exception): 'could not retrieve any moves for this game'"
+
 
 class PossibleCorruptFile(Exception):
     """
     Δηλώνει ότι η κλάση game_loader.Gameloader δεν κατάφερε να δημιουργήσει στιγμιότυπα του αγώνα, διότι η μέθοδος
     gameplay.Gameplay.next_move() επέστρεψε None
+
+    Ορίσματα:
+    ---------
+        bug (str): θέση όπου προέκυψε το σφάλμα
     """
-    def __init__(self):
+    def __init__(self, bug: str=""):
         super().__init__()
+        self.bug = bug
+
+    def __str__(self):
+        return f"PossibleCorruptFile (Exception): 'failed processing {self.bug}"

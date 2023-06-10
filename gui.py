@@ -64,6 +64,10 @@ class GUI(Tk):
         down_key_bind(self, event):
             επιστρέφει το ταμπλό στην αρχική θέση χρησιμοποιώντας key-event <κάτω-βέλος>
             εάν το παιχνίδι βρίσκεται στην πρώτη κίνηση, δεν εκτελεί κάτι
+
+        up_key_bind(self, event):
+            ενεργοποιεί την αυτόματη αναπαραγωγή του αγώνα χρησιμοποιώντας key-event <πάνω-βέλος>
+            εάν το παιχνίδι βρίσκεται στην τελευταία κίνηση, δεν εκτελεί κάτι
     """
     def __init__(self, game_loader_obj, game_dict: dict):
         # κλήση της super για κληρονόμηση ιδιοτήτων γονικής κλάσης
@@ -384,7 +388,7 @@ class GUI(Tk):
 
         # αναπαραγωγή ήχου
         mixer.music.load('sound_effects\\previous_move.mp3')
-        mixer.music.play(loops=0)
+        mixer.music.play(loops=0, fade_ms=200)
 
         # ανανέωση γραφικής αναπαράστασης σκακιέρας
         self.update_gui_board()
@@ -406,6 +410,7 @@ class GUI(Tk):
         self.bind(sequence='<Right>', func=self.right_key_bind)
         self.bind(sequence='<Left>', func=self.left_key_bind)
         self.bind(sequence="<Down>", func=self.down_key_bind)
+        self.bind(sequence="<Up>", func=self.up_key_bind)
 
         # ενεργοποίηση πλήκτρων ελέγχου αγώνα
         self.button_next.config(state="normal")
@@ -440,6 +445,10 @@ class GUI(Tk):
         self.checkbutton_var.set(0)
         self.ending_move = False
         self.starting_move = True
+
+        # αναπαραγωγή ήχου
+        mixer.music.load('sound_effects\\restart.mp3')
+        mixer.music.play(loops=0)
 
         # προβολή επόμενης κίνησης στο ταμπλό
         self.next_move_display.config(text=self.text_config(),
@@ -492,7 +501,8 @@ class GUI(Tk):
                          "Right arrow (---->) button or <Right-Key> for next move\n"
                          "Left arrow (<----) button or <Left-Key> for previous move\n"
                          "Reset arrow (||<--) button or <Down-Key>  to reset the board\n",
-                 detail="You can also toggle autoplay (on/off) from the File menu")
+                 detail="You can also toggle autoplay (on/off) from the File menu\n"
+                        "or by using the <Up-Key>")
 
     def exit(self):
         """
@@ -531,3 +541,19 @@ class GUI(Tk):
         if self.starting_move:
             return
         self.restart_game()
+
+    def up_key_bind(self, event):
+        """
+        Ενεργοποιεί την αυτόματη αναπαραγωγή του αγώνα χρησιμοποιώντας key-event <πάνω-βέλος>
+        Εάν το παιχνίδι βρίσκεται στην τελευταία κίνηση, δεν εκτελεί κάτι
+        """
+        if self.ending_move:
+            return
+        if  self.checkbutton_var.get() == 1:
+            # εάν το checkbutton_var είναι 1 (δηλαδή ενεργό), διακόπτει την αυτόματη αναπαραγωγή
+            self.checkbutton_var.set(0)
+            return
+        if self.checkbutton_var.get() == 0:
+            # εάν το checkbutton_var είναι 0 (δηλαδή ανενεργό), ενεργοποιεί την αυτόματη αναπαραγωγή
+            self.checkbutton_var.set(1)
+            self.autoplay()

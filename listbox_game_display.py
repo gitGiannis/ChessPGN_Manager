@@ -38,6 +38,8 @@ class ListboxGameDisplay(Frame):
         super().__init__()
         # ορισμός master του frame
         self.root = root
+        # ενεργοποίηση επιλογής "back" στο μενού μπάρας
+        self.root.file_menu.entryconfig(5, state="normal", command=self.retrieve_master)
 
         # αρχικοποίηση λίστας με τα αρχεία pgn που βρέθηκαν ------------------------------------------------------------
         self.pgn_list = []
@@ -184,5 +186,6 @@ class ListboxGameDisplay(Frame):
         self.root.file_menu.entryconfig(0, state="normal")
         self.root.file_menu.entryconfig(1, state="normal")
         self.root.file_menu.entryconfig(3, state="normal")
+        self.root.file_menu.entryconfig(5, state="disabled")
         # τερματισμός τρέχοντος frame
         self.destroy()

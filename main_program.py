@@ -65,6 +65,7 @@ class MainProgram(Tk):
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Copy Path", command=self.copy_path)
         self.file_menu.add_separator()
+        self.file_menu.add_command(label="Back", state="disabled")
         self.file_menu.add_command(label="Exit", command=self.exit)
 
         # υπο-μενού Help
