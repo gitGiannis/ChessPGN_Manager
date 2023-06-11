@@ -5,7 +5,6 @@ from tkinter import Frame, Button, Listbox, Label, Scrollbar
 from pgn import FilePGN
 from game_loader import GameLoader
 from gui import GUI
-from my_exceptions import NoMovesFound, PossibleCorruptFile, FriendlyCapture
 
 
 class ListboxGameDisplay(Frame):

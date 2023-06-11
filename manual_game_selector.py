@@ -5,7 +5,6 @@ from tkinter import Frame, Button, Listbox, Scrollbar, Label
 from game_loader import GameLoader
 from gui import GUI
 from pgn import FilePGN
-from my_exceptions import NoMovesFound, PossibleCorruptFile, FriendlyCapture
 
 
 class ManualGameSelector(Frame):
