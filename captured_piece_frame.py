@@ -90,13 +90,13 @@ class CapturedPieceFrame(Frame):
 
         if captured_piece_name[1] == "w":
             self.captured_piece_board[self.row_for_white][self.col_for_white].config(
-                                                                    image=self.photo_dict[self.dict[self.round]],
+                                                                    image=self.photo_dict[captured_piece_name],
                                                                     state="disabled")
             return "w"
 
         if captured_piece_name[1] == "b":
             self.captured_piece_board[self.row_for_black][self.col_for_black].config(
-                                                                    image=self.photo_dict[self.dict[self.round]],
+                                                                    image=self.photo_dict[captured_piece_name],
                                                                     state="disabled")
             return "b"
 
