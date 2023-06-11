@@ -12,7 +12,8 @@ class MyTest(Tk):
     """
     Κλάση για τεστάρισμα αρχείων pgn (δε χρησιμοποιείται από το κυρίως πρόγραμμα)
     Τρέχει όλα τα παιχνίδια του αρχείου και κρατάει σε λίστα όσα από αυτά είχαν σφάλμα ή δεν έτρεξαν
-    >> python -m PyInstaller --name="debugger" --icon=icons/debug.ico --noconsole --add-data="icons/debug.ico;icons" _debugger.py
+    >> python -m PyInstaller --name="debugger" --icon=icons/debug.ico --noconsole --add-data="icons/debug.ico;icons"
+    _debugger.py
     """
     def __init__(self):
         super().__init__()
