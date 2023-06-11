@@ -82,8 +82,8 @@ class GameLoader:
         for piece in self.gameplay.brd.pieces:
             current_round.append({
                 "name": piece.name,
-                "row": int(piece.row),
-                "col": int(piece.col)
+                "row": piece.row,
+                "col": piece.col
             })
         self.info_dictionaries_per_round.append(current_round)
 
