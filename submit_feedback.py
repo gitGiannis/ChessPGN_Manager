@@ -26,7 +26,7 @@ class FeedBack(Toplevel):
     """
     def __init__(self, master):
         # κλήση της super για κληρονόμηση ιδιοτήτων απο μητρική κλάση
-        super().__init__(master= master)
+        super().__init__(master=master)
         # εικονίδιο παραθύρου
         self.iconbitmap("icons\\stonk.ico")
         # όνομα παραθύρου
@@ -49,7 +49,7 @@ class FeedBack(Toplevel):
         self.body_box.grid(row=2, column=0, columnspan=2)
 
         # δημιουργία κουμπιού
-        self.send_button = Button(master=self ,text="Submit Feedback",
+        self.send_button = Button(master=self, text="Submit Feedback",
                                   font=("consolas", 10, "bold"),
                                   background="light green",
                                   activebackground="green",

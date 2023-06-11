@@ -142,7 +142,7 @@ class ListboxGameDisplay(Frame):
                 self.warning_label.after(3000, self.warning_label.grid_forget)
         else:
             # εμφάνιση μηνύματος σφάλματος σε περίπτωση που δεν έχει γίνει επιλογή
-            self.warning_label.config(text ="Select a game to run first!")
+            self.warning_label.config(text="Select a game to run first!")
             self.warning_label.grid(row=1, column=1, columnspan=2, sticky="nw")
             self.warning_label.after(3000, self.warning_label.grid_forget)
 

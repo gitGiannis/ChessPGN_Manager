@@ -7,7 +7,7 @@ import zipfile
 def install_app():
     """
     Πραγματοποιεί εγκατάσταση της εφαρμογής κάνοντας αποσυμπίεση των αρχείων
-    python -m PyInstaller --onefile --name="Install Wizard"  .\_installer.py
+    python -m PyInstaller --onefile --name="Install Wizard" _installer.py
     """
     print("Install Wizard for Chess PGN manager v1.0")
     input("press <enter> to continue...")

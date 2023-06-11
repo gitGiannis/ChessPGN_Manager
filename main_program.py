@@ -84,7 +84,7 @@ class MainProgram(Tk):
         Label(master=self.main_frame,
               image=chess_image,
               width=550,
-              background="light yellow" ).pack()
+              background="light yellow").pack()
 
         # δημιουργία και τοποθέτηση κουμπιών ---------------------------------------------------------------------------
         Button(self.main_frame,

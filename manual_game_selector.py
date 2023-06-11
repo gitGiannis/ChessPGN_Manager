@@ -41,7 +41,7 @@ class ManualGameSelector(Frame):
         self.root.file_menu.entryconfig(5, state="normal", command=self.retrieve_master)
 
         # αρχικοποίηση αντικειμένων που θα χρειαστούν ------------------------------------------------------------------
-        self.file = FilePGN(pgn_filepath)
+        file = FilePGN(pgn_filepath)
         self.file_path = pgn_filepath
         self.warning_label = Label(self,
                                    bg="light blue",
@@ -57,14 +57,14 @@ class ManualGameSelector(Frame):
         # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού
         self.game_dict_collection = []
         # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
-        for i, num in enumerate(self.file.get_index_of_games()):
+        for i, num in enumerate(file.get_index_of_games()):
             # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
-            self.game_dictionary = self.file.get_info(num)
+            game_dictionary = file.get_info(num)
             # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
-            self.game_dict_collection.append(self.game_dictionary)
-            self.listbox.insert(i, f'{str(i + 1)+".":4}{self.game_dictionary["White"]} vs '
-                                   f'{self.game_dictionary["Black"]} '
-                                   f'({self.game_dictionary["Result"]})')
+            self.game_dict_collection.append(game_dictionary)
+            self.listbox.insert(i, f'{str(i + 1)+".":4}{game_dictionary["White"]} vs '
+                                   f'{game_dictionary["Black"]} '
+                                   f'({game_dictionary["Result"]})')
 
         # τροποποίηση μεγέθους listbox αναλόγως με τον όγκο των παιχνιδιών
         self.listbox.config(height=20,

@@ -39,7 +39,7 @@ class MyTest(Tk):
         self.choose_button.pack(side="right")
         Label(frame, text="Output:").pack(side="left")
 
-        self.output = Text(self, height=10, width=80, state="disabled", bg="light grey", font=("cosnolas", 8))
+        self.output = Text(self, height=10, width=80, state="disabled", bg="light grey", font=("", 8))
 
         self.label.grid(row=0, column=0)
         self.progressbar.grid(row=1, column=0, pady=10, padx=3)
@@ -71,7 +71,7 @@ class MyTest(Tk):
 
             self.progressbar.config(maximum=self.length)
             self.output.config(state="normal")
-            self.output.delete("1.0","end")
+            self.output.delete("1.0", "end")
             self.output.config(state="disabled")
             self.progress.config(text="")
 

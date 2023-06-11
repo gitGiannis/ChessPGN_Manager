@@ -123,7 +123,7 @@ def about():
     Ανοίγει παράθυρο με τεχνικές πληροφορίες εφαρμογής
     """
     showinfo(title="About",
-             message="Chess PGN Μanager v1.0\n"
+             message="Chess PGN Manager v1.0\n"
                      "Release date: 14 June 2023")
 
 
@@ -133,8 +133,7 @@ def show_credits():
     """
     showinfo(title="Credits",
              message="Developers:\n"
-                     ">> Moiris Ioannis\n"
-                     ">> Soundias Panagiotis\n",
+                     ">> Moiris Ioannis\n",
              detail="Special Thanks To:\n"
                      ">> Gkogkos Christos, for the help provided")
 

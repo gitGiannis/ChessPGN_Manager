@@ -261,7 +261,7 @@ class GUI(Tk):
         button_frame.grid(row=1, column=0, sticky="ew")
 
         # αρχικοποίηση και τοποθέτηση Frame με τις πληροφορίες του αγώνα στο παράθυρο
-        InfoFrame(master=self, info_dictionary=game_dict).grid(row=0, column=1,sticky="n")
+        InfoFrame(master=self, info_dictionary=game_dict).grid(row=0, column=1, sticky="n")
 
         # αρχικοποίηση και τοποθέτηση Frame με τα αιχμαλωτισμένα κομμάτια στο παράθυρο
         self.cap_frame = CapturedPieceFrame(master=self, blank_image=self.blank,
@@ -551,7 +551,7 @@ class GUI(Tk):
         """
         if self.ending_move:
             return
-        if  self.checkbutton_var.get() == 1:
+        if self.checkbutton_var.get() == 1:
             # εάν το checkbutton_var είναι 1 (δηλαδή ενεργό), διακόπτει την αυτόματη αναπαραγωγή
             self.checkbutton_var.set(0)
             return
