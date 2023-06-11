@@ -83,6 +83,8 @@ class GUI(Tk):
         # συλλογή των στιγμιοτύπων του παιχνιδιού ----------------------------------------------------------------------
         self.game_loader = game_loader_obj
 
+        self.__result = game_dict["Result"]
+
         # δημιουργία μπάρας μενού --------------------------------------------------------------------------------------
         menubar = Menu(self)
 
@@ -489,7 +491,7 @@ class GUI(Tk):
             return to_play + str((cur_round//2)+1) + ". " + self.game_loader.gameplay.moves[cur_round]
         else:
             # εάν είμαστε στην τελευταία κίνηση επιστρέφεται το τελικό σκορ του αγώνα
-            return self.game_loader.gameplay.game_dict["Result"]
+            return self.__result
 
     def show_controls(self):
         """
