@@ -58,9 +58,9 @@ class Gameplay:
 
         # αρχικοποίηση λιστών με πληροφορίες για τον έλεγχο των κινήσεων -----------------------------------------------
         # λίστα με τις στήλες της σκακιέρας
-        self.letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+        self.files = ["a", "b", "c", "d", "e", "f", "g", "h"]
         # λίστα με τις σειρές της σκακιέρας
-        self.numbers = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        self.ranks = ["1", "2", "3", "4", "5", "6", "7", "8"]
         # λίστα με τις διαγωνίους της σκακιέρας
         self.diags = [["a1", "b2", "c3", "d4", "e5", "f6", "g7", "h8"],
                       ["a2", "b3", "c4", "d5", "e6", "f7", "g8"],
@@ -93,7 +93,6 @@ class Gameplay:
         # θεωρώντας ότι ο ίππος βρίσκεται στη θέση (0, 0)
         self.knight_moves = [(-2, -1), (-2, 1), (2, -1), (2, 1),
                              (-1, -2), (-1, 2), (1, -2), (1, 2)]
-
 
         # αρχικοποίηση μεταβλητής που μετράει τους γύρους
         self.round = -1
@@ -600,7 +599,7 @@ class Gameplay:
             # πύργοι στην ίδια στήλη (ίδιο letter)
             # 1. rook rank < move
             if src[1] < dest[1]:
-                for num in self.numbers:
+                for num in self.ranks:
                     # εδώ γίνεται έλεγχος αν υπάρχει κάποιο κομμάτι που εμποδίζει την κίνηση
                     if num <= src[1] or num >= dest[1]:
                         # συνεχίζουμε στην επόμενη επανάληψη όσο είμαστε εκτός εύρους κίνησης
@@ -615,7 +614,7 @@ class Gameplay:
 
             # 2. rook rank > move
             if src[1] > dest[1]:
-                for num in self.numbers:
+                for num in self.ranks:
                     # εδώ γίνεται έλεγχος αν υπάρχει κάποιο κομμάτι που εμποδίζει την κίνηση
                     if num <= dest[1] or num >= src[1]:
                         # συνεχίζουμε στην επόμενη επανάληψη όσο είμαστε εκτός εύρους κίνησης
@@ -632,7 +631,7 @@ class Gameplay:
             # πύργοι στην ίδια γραμμή (ίδιο number)
             # 1. rook letter > move
             if src[0] > dest[0]:
-                for letter in self.letters:
+                for letter in self.files:
                     if letter <= dest[0] or letter >= src[0]:
                         # συνεχίζουμε στην επόμενη επανάληψη όσο είμαστε εκτός εύρους κίνησης
                         continue
@@ -646,7 +645,7 @@ class Gameplay:
 
             # 2. rook letter < move
             if src[0] < dest[0]:
-                for letter in self.letters:
+                for letter in self.files:
                     if letter >= dest[0] or letter <= src[0]:
                         # συνεχίζουμε στην επόμενη επανάληψη όσο είμαστε εκτός εύρους κίνησης
                         continue
@@ -677,9 +676,9 @@ class Gameplay:
                 False: η κίνηση δεν είναι έγκυρη
         """
         # γίνεται αναζήτηση του file (γράμμα) εκκίνησης και προορισμού, και μετατρέπεται σε αριθμητική διαφορά
-        distance_by_file = self.letters.index(src[0]) - self.letters.index(dest[0])
+        distance_by_file = self.files.index(src[0]) - self.files.index(dest[0])
         # γίνεται αναζήτηση του rank (αριθμός) εκκίνησης και προορισμού, και μετατρέπεται σε αριθμητική διαφορά
-        distance_by_rank = self.numbers.index(src[1]) - self.numbers.index(dest[1])
+        distance_by_rank = self.ranks.index(src[1]) - self.ranks.index(dest[1])
         # εάν το ζευγάρι των αριθμητικών αυτών τιμών βρίσκεται μέσα στο προκαθορισμένη λίστα, η κίνηση είναι έγκυρη
         if (distance_by_file, distance_by_rank) in self.knight_moves:
             return True
@@ -719,10 +718,10 @@ class Gameplay:
 
         # --- κάθετη κίνηση ---
         if king_rank == dest_rank:
-            # εύρεση του index του γράμματος μέσα στο self.letters, ώστε να "μετατραπούν" σε αριθμητικές τιμές και να
+            # εύρεση του index του γράμματος μέσα στο self.files, ώστε να "μετατραπούν" σε αριθμητικές τιμές και να
             # γίνει σύγκριση
-            king_file_index = self.letters.index(king_file)
-            dest_file_index = self.letters.index(dest_file)
+            king_file_index = self.files.index(king_file)
+            dest_file_index = self.files.index(dest_file)
             # έλεγχος εάν το file (στήλη) του βασιλιά έχει διαφορά ένα γράμμα
             if king_file_index - 1 == dest_file_index or king_file_index + 1 == dest_file_index:
                 return True
@@ -782,7 +781,7 @@ class Gameplay:
         # έλεγχος γραμμής ----------------------------------------------------------------------------------------------
         # δημιουργία λίστας με κελιά γραμμής που ανήκει ο βασιλιάς
         king_row: list = []
-        for letter in self.letters:
+        for letter in self.files:
             king_row.append(letter + king_pos[1])
 
         # έλεγχος εάν το κομμάτι που θα κινηθεί βρίσκεται στην ίδια γραμμή με τον βασιλιά
@@ -795,7 +794,7 @@ class Gameplay:
             # εάν η θέση src είναι μικρότερη, ξεκινάμε από την επόμενή της και προς τα "αριστερά"
             if src_index < king_index:
                 # έλεγχος εάν τα ενδιάμεσα κελιά είναι κενά
-                for i in range(king_index -1, src_index, -1):
+                for i in range(king_index - 1, src_index, -1):
                     if self.brd.squares[king_row[i]]:
                         # βρέθηκε κάποιο κομμάτι ενδιάμεσα, οπότε δεν είναι "καρφωμένο"
                         return True
@@ -865,7 +864,7 @@ class Gameplay:
         # έλεγχος στήλης -----------------------------------------------------------------------------------------------
         # δημιουργία λίστας με κελιά στήλης που ανήκει ο βασιλιάς
         king_col: list = []
-        for number in self.numbers:
+        for number in self.ranks:
             king_col.append(king_pos[0] + number)
 
         # έλεγχος εάν το κομμάτι που θα κινηθεί βρίσκεται στην ίδια στήλη με τον βασιλιά
@@ -876,7 +875,7 @@ class Gameplay:
             src_index = king_col.index(src)
             # εάν η θέση src είναι μικρότερη, ξεκινάμε από την επόμενή της και προς τα "κάτω"
             if src_index < king_index:
-                for i in range(king_index -1, src_index, -1):
+                for i in range(king_index - 1, src_index, -1):
                     if self.brd.squares[king_col[i]]:
                         # βρέθηκε κάποιο κομμάτι ενδιάμεσα, οπότε δεν είναι "καρφωμένο"
                         return True

@@ -150,8 +150,8 @@ class GUI(Tk):
                     self.board[row][col].config(bg="#47473C")
 
         # προσθήκη συντεταγμένων στα εξωτερικά κελιά της σκακιέρας
-        letters = self.game_loader.gameplay.letters
-        numbers = self.game_loader.gameplay.numbers
+        letters = self.game_loader.gameplay.files
+        numbers = self.game_loader.gameplay.ranks
         # αριθμός pixel πάνω στο frame
         position = 0
         # τοποθέτηση γράμματος/αριθμού στα ακραία κελιά και προσθήκη κατάλληλων background και foreground χρωμάτων
