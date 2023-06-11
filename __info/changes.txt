@@ -1,3 +1,0 @@
-self.set_pieces() -----|
-                       |--> combine
-self.update_squares() -|
