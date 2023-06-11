@@ -137,15 +137,7 @@ class ListboxGameDisplay(Frame):
                 game_loader = GameLoader(self.file_path, index_for_games)
                 # τρέχουμε το GUI (γραφική αναπαράσταση παιχνιδιού) με το συγκεκριμένο παιχνίδι
                 GUI(game_loader, self.game_dict_collection[index_for_collection])
-            except PossibleCorruptFile as v:
-                self.warning_label.config(text=str(v))
-                self.warning_label.grid(row=1, column=1, columnspan=2, sticky="nw")
-                self.warning_label.after(3000, self.warning_label.grid_forget)
-            except FriendlyCapture as v:
-                self.warning_label.config(text=str(v))
-                self.warning_label.grid(row=1, column=1, columnspan=2, sticky="nw")
-                self.warning_label.after(3000, self.warning_label.grid_forget)
-            except NoMovesFound as v:
+            except Exception as v:
                 self.warning_label.config(text=str(v))
                 self.warning_label.grid(row=1, column=1, columnspan=2, sticky="nw")
                 self.warning_label.after(3000, self.warning_label.grid_forget)

@@ -99,7 +99,7 @@ class MyTest(Tk):
         try:
             GameLoader(self.path, number)
         except Exception as v:
-            string = f"[{num}]: {v}"
+            string = f"[{num}]: {repr(v)}"
             self.faults += ">> " + string + "\n"
 
             self.output.config(state="normal")
