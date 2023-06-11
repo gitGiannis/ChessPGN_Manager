@@ -24,6 +24,9 @@ class NoMovesFound(Exception):
         super().__init__()
 
     def __str__(self):
+        return "no moves for this game"
+
+    def __repr__(self):
         return "NoMovesFound (Exception): 'could not retrieve any moves for this game'"
 
 
@@ -36,9 +39,32 @@ class PossibleCorruptFile(Exception):
     ---------
         bug (str): θέση όπου προέκυψε το σφάλμα
     """
-    def __init__(self, bug: str=""):
+    def __init__(self, bug: str = ""):
         super().__init__()
         self.bug = bug
 
     def __str__(self):
+        return f"Failed processing {self.bug}"
+
+    def __repr__(self):
         return f"PossibleCorruptFile (Exception): 'failed processing {self.bug}"
+
+
+class FriendlyCapture(Exception):
+    """
+    Δηλώνει ότι η κλάση game_loader.Gameloader δεν κατάφερε να δημιουργήσει στιγμιότυπα του αγώνα, διότι η μεταβλητή
+    gameplay.brd.friendly_capture είναι True
+
+    Ορίσματα:
+    ---------
+        bug (str): θέση όπου προέκυψε το σφάλμα
+    """
+    def __init__(self, bug: str = ""):
+        super().__init__()
+        self.bug = bug
+
+    def __str__(self):
+        return f"Friendly Capture at {self.bug}"
+
+    def __repr__(self):
+        return f"FriendlyCapture (Exception): 'failed processing {self.bug}"

@@ -2,7 +2,7 @@
 # game_loader.py: περιέχει την κλάση GameLoader                                                                        #
 # -------------------------------------------------------------------------------------------------------------------- #
 from gameplay import Gameplay
-from my_exceptions import PositionReached, NoMovesFound, PossibleCorruptFile
+from my_exceptions import PositionReached, NoMovesFound, PossibleCorruptFile, FriendlyCapture
 
 
 class GameLoader:
@@ -98,7 +98,10 @@ class GameLoader:
 
             # η μέθοδος next_move() επέστρεψε None
             if captured_piece_name is None:
-                raise PossibleCorruptFile(f"{self.gameplay.round//2 + 1}. {self.gameplay.moves[self.gameplay.round]}'")
+                raise PossibleCorruptFile(f"{self.gameplay.round//2 + 1}. {self.gameplay.moves[self.gameplay.round]}")
+
+            if self.gameplay.brd.friendly_capture:
+                raise FriendlyCapture(f"{self.gameplay.round//2 + 1}. {self.gameplay.moves[self.gameplay.round]}")
 
             # ενημέρωση λεξικού captured_piece_names
             self.update_captured_piece_dict(captured_piece_name)

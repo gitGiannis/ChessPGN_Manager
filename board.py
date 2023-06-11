@@ -79,6 +79,9 @@ class Board:
         # θα χρησιμεύσει στον έλεγχο της εγκυρότητας των κινήσεων των κομματιών της κλάσης Gameplay
         self.squares = {}
 
+        # τιμή bool για δήλωση ότι ένα κομμάτι κατέλαβε κομμάτι ίδιου tag (χρώματος)
+        self.friendly_capture: bool = False
+
     def __update_squares(self, piece):
         """
         Ενημερώνει το λεξικό κενών και κατηλλειμένων κελιών
@@ -275,6 +278,9 @@ class Board:
                 αποθηκεύει πληροφορίες για τα αιχμαλωτισμένα κομμάτια ώστε να προβληθούν στο παράθυρο εξέλιξης του αγώνα
                 (gui.GUI)
         """
+        # επαναφορά μεταβλητής
+        self.friendly_capture = False
+
         # αρχικοποίηση επιστρεφόμενης τιμής
         piece_dest_name_to_return = ""
 
@@ -290,6 +296,10 @@ class Board:
                 for piece_dest in self.pieces:
                     # εύρεση κομματιού dest
                     if piece_dest.pos == dest:
+                        # έλεγχος χρώματος (tag)
+                        if piece_src.name[1] == piece_dest.name[1]:
+                            self.friendly_capture = True
+
                         # προσωρινή αποθήκευση τρεχόντων συντεταγμένων του κομματιού dest
                         row_dest = piece_dest.row
                         col_dest = piece_dest.col
