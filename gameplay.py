@@ -47,11 +47,9 @@ class Gameplay:
         file = FilePGN(file_path)
         self.brd = Board()
 
-        # αποθήκευση λεξικού με τις επεξεργασμένες πληροφορίες του παιχνιδιού που επιλέχτηκε ---------------------------
-        self.game_dict = file.get_info(no_of_game)
-
+        # δημιουργία λεξικού με τις επεξεργασμένες πληροφορίες του παιχνιδιού που επιλέχτηκε από το οποίο κρατάω το ----
         # key-word "moves": επιστρέφει λίστα με τις κινήσεις του συγκεκριμένου παιχνιδιού
-        self.moves = self.game_dict["moves"]
+        self.moves = file.get_info(no_of_game)["moves"]
 
         # αποθήκευση μήκους λίστας κινήσεων
         self.moves_length = len(self.moves)
