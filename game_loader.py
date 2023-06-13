@@ -121,7 +121,7 @@ class GameLoader:
             # προσθήκη τιμής ματ σε βασιλιά στη λίστα
             self.check_per_round.append(self.gameplay.check)
 
-    def next_round(self, force: bool=False):
+    def next_round(self, force: bool = False):
         """
         Μετάβαση στον επόμενο γύρο
         Εκτελεί την επόμενη κίνηση μέχρι να φτάσει στον προτελευταίο γύρο
@@ -144,7 +144,7 @@ class GameLoader:
             else:
                 raise PositionReached
 
-    def previous_round(self, force: bool=False):
+    def previous_round(self, force: bool = False):
         """
         Μέθοδος για μετάβαση στον προηγούμενο γύρο
         Εκτελεί την προηγούμενη κίνηση μέχρι να φτάσει στη δεύτερη
