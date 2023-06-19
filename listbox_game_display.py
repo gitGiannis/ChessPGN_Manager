@@ -47,9 +47,6 @@ class ListboxGameDisplay(Frame):
                 # εξαιρούνται όσα αρχεία δεν είναι *.pgn
                 self.pgn_list.append(item)
 
-        # αρχικοποίηση διεύθυνσης επιλεγμένου αρχείου ------------------------------------------------------------------
-        self.file_path = None
-
         # αρχικοποίηση πλαισίου που θα περιέχει τα παιχνίδια που διαβάστηκαν από το αρχείο pgn -------------------------
         self.pgn_listbox = Listbox(self, bg="#f7ffde", width=30, height=20, font=("consolas", 10))
 
@@ -148,21 +145,28 @@ class ListboxGameDisplay(Frame):
             # καθαρισμός λεξικού και listbox από προηγούμενη φόρτωση παιχνιδιών
             self.game_dict_collection.clear()
             self.game_listbox.delete(0, "end")
-            # ορισμός διεύθυνσης αρχείου
-            self.file_path = "pgn_files\\" + self.pgn_listbox.get(self.pgn_listbox.curselection())
-            file = FilePGN("pgn_files\\" + self.pgn_listbox.get(self.pgn_listbox.curselection()))
-            # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
-            for i, num in enumerate(file.index_of_games):
-                # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
-                game_dictionary = file.get_info(num)
-                # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
-                self.game_dict_collection.append(game_dictionary)
-                self.game_listbox.insert(i, f'{str(i + 1) + ".":4}{game_dictionary["White"]} vs '
-                                            f'{game_dictionary["Black"]} '
-                                            f'({game_dictionary["Result"]})')
-                # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
-                if i % 100 == 0:
-                    self.update()
+
+            try:
+                # δημιουργία αντικειμένου για εξαγωγή πληροφοριών
+                file = FilePGN("pgn_files\\" + self.pgn_listbox.get(self.pgn_listbox.curselection()))
+            except OSError:
+                # εμφάνιση μηνύματος σφάλματος σε περίπτωση αποτυχία διαβάσματος αρχείου
+                self.warning_label.config(text="Could not open file")
+                self.warning_label.grid(row=1, column=1, columnspan=2, sticky="nw")
+                self.warning_label.after(3000, self.warning_label.grid_forget)
+            else:
+                # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
+                for i, num in enumerate(file.index_of_games):
+                    # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
+                    game_dictionary = file.get_info(num)
+                    # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
+                    self.game_dict_collection.append(game_dictionary)
+                    self.game_listbox.insert(i, f'{str(i + 1) + ".":4}{game_dictionary["White"]} vs '
+                                                f'{game_dictionary["Black"]} '
+                                                f'({game_dictionary["Result"]})')
+                    # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
+                    if i % 100 == 0:
+                        self.update()
 
     def retrieve_master(self):
         """

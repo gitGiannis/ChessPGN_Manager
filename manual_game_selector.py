@@ -41,8 +41,8 @@ class ManualGameSelector(Frame):
         self.root.file_menu.entryconfig(5, state="normal", command=self.retrieve_master)
 
         # αρχικοποίηση αντικειμένων που θα χρειαστούν ------------------------------------------------------------------
-        file = FilePGN(pgn_filepath)
-        self.file_path = pgn_filepath
+
+
         self.warning_label = Label(self,
                                    bg="light blue",
                                    fg="red",
@@ -86,18 +86,26 @@ class ManualGameSelector(Frame):
         # φόρτωση πληροφοριών που θα προβληθούν στο listbox ------------------------------------------------------------
         # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού
         self.game_dict_collection = []
-        # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
-        for i, num in enumerate(file.index_of_games):
-            # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
-            game_dictionary = file.get_info(num)
-            # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
-            self.game_dict_collection.append(game_dictionary)
-            self.listbox.insert(i, f'{str(i + 1) + ".":4}{game_dictionary["White"]} vs '
-                                   f'{game_dictionary["Black"]} '
-                                   f'({game_dictionary["Result"]})')
-            # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
-            if i % 100 == 0:
-                self.update()
+
+        try:
+            # δημιουργία αντικειμένου για εξαγωγή πληροφοριών
+            file = FilePGN(pgn_filepath)
+        except OSError:
+            self.retrieve_master()
+            raise OSError
+        else:
+            # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
+            for i, num in enumerate(file.index_of_games):
+                # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
+                game_dictionary = file.get_info(num)
+                # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
+                self.game_dict_collection.append(game_dictionary)
+                self.listbox.insert(i, f'{str(i + 1) + ".":4}{game_dictionary["White"]} vs '
+                                       f'{game_dictionary["Black"]} '
+                                       f'({game_dictionary["Result"]})')
+                # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
+                if i % 100 == 0:
+                    self.update()
 
     def display_game(self):
         """

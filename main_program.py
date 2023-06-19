@@ -136,11 +136,17 @@ class MainProgram(Tk):
                 self.file_menu.entryconfig(1, state="disabled")
                 self.file_menu.entryconfig(3, state="disabled")
 
-                # τοποθέτηση frame με τους αγώνες για επιλογή παιχνιδιού
-                ManualGameSelector(root=self, pgn_filepath=file_path)
+                try:
+                    # τοποθέτηση frame με τους αγώνες για επιλογή παιχνιδιού
+                    ManualGameSelector(root=self, pgn_filepath=file_path)
+                except OSError:
+                    # εμφάνιση μηνύματος σφάλματος σε περίπτωση αποτυχία διαβάσματος αρχείου
+                    self.warning_label.config(text="Could not open file")
+                    self.warning_label.pack(fill="both")
+                    self.warning_label.after(2000, self.warning_label.pack_forget)
             else:
                 # το αρχείο είναι λάθος τύπου
-                self.warning_label.config(text="Invalid File Type!",)
+                self.warning_label.config(text="Invalid File Type!")
                 self.warning_label.pack(fill="both")
                 self.warning_label.after(2000, self.warning_label.pack_forget)
 
