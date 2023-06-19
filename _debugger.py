@@ -21,8 +21,8 @@ class MyTest(Tk):
         self.iconbitmap("icons\\debug.ico")
         self.resizable(False, False)
 
-        self.path: str = ""
-        self.my_list: list = []
+        self.file = None
+        self.index_list: list = []
         self.length: int = 0
         self.game_cnt = -1
         self.error_cnt = 0
@@ -62,12 +62,12 @@ class MyTest(Tk):
 
         if path and path[-4:] == ".pgn":
             self.progressbar["value"] = 0
-            self.path = path
-            self.label.config(text=self.path)
+            self.label.config(text=path)
             self.test_button.config(state="normal")
 
-            self.my_list = FilePGN(self.path).get_index_of_games()
-            self.length = len(self.my_list)
+            self.file = FilePGN(path)
+            self.index_list = self.file.index_of_games
+            self.length = len(self.index_list)
 
             self.progressbar.config(maximum=self.length)
             self.output.config(state="normal")
@@ -84,20 +84,20 @@ class MyTest(Tk):
         self.game_cnt += 1
 
         if self.game_cnt == self.length:
-            self.progress.config(text=f"finished testing {self.my_list[self.game_cnt - 1]// 2 + 1} games"
+            self.progress.config(text=f"finished testing {self.index_list[self.game_cnt - 1]// 2 + 1} games"
                                       f" [{self.error_cnt} error(s)]")
             self.choose_button.config(state="normal")
             self.print_results()
             return
 
-        number = self.my_list[self.game_cnt]
+        number = self.index_list[self.game_cnt]
         num = number // 2 + 1
 
         self.progressbar["value"] += 1
         self.progress.config(text=f"testing game: {num}/{self.length} [{self.error_cnt} error(s)]")
 
         try:
-            GameLoader(self.path, number)
+            GameLoader(list_of_moves=self.file.get_info()["moves"])
         except Exception as v:
             string = f"[{num}]: {repr(v)}"
             self.faults += ">> " + string + "\n"

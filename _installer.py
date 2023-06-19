@@ -20,7 +20,7 @@ def install_app():
                 print("extracting " + path, end='')
                 zip_ref.extractall()
                 print(" [done]")
-        except:
+        except FileNotFoundError:
             print("failed to install app!\n"
                   "make sure the install wizard is in the same directory\n"
                   "as the three zip files (PGN_Manager_1, ...2 and ...3)")
