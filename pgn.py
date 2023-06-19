@@ -115,9 +115,9 @@ class FilePGN:
             game_data_list (list[str]):
                 λίστα με συμβολοσειρές με τις πληροφορίες που αποσπάστηκαν από το αρχείο
         """
-        try:
-            # πραγματοποιείται διάβασμα του αρχείου pgn
-            pgn = open(self.file_path, "r")
+
+        # διάβασμα του αρχείου pgn
+        with open(self.file_path, "r") as pgn:
             # αρχικοποίηση λίστας αποθήκευσης πληροφοριών
             game_data_list = []
             # αρχικοποίηση βοηθητικής συμβολοσειράς όπου θα αποθηκεύεται προσωρινά η πληροφορία
@@ -152,9 +152,6 @@ class FilePGN:
             # [όπου "n" ζυγός μη αρνητικός αριθμός (0, 2, 4 κλπ)]
             pgn.close()
             return game_data_list
-
-        except OSError:
-            return []
 
     def __get_index_of_games(self) -> list:
         """
