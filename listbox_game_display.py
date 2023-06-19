@@ -154,7 +154,7 @@ class ListboxGameDisplay(Frame):
             self.file_path = "pgn_files\\" + self.pgn_listbox.get(self.pgn_listbox.curselection())
             file = FilePGN("pgn_files\\" + self.pgn_listbox.get(self.pgn_listbox.curselection()))
             # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
-            for i, num in enumerate(file.get_index_of_games()):
+            for i, num in enumerate(file.index_of_games):
                 # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
                 game_dictionary = file.get_info(num)
                 # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn

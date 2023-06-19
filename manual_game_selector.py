@@ -87,7 +87,7 @@ class ManualGameSelector(Frame):
         # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού
         self.game_dict_collection = []
         # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
-        for i, num in enumerate(file.get_index_of_games()):
+        for i, num in enumerate(file.index_of_games):
             # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
             game_dictionary = file.get_info(num)
             # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
