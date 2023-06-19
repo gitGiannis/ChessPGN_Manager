@@ -40,9 +40,7 @@ class ManualGameSelector(Frame):
         # ενεργοποίηση επιλογής "back" στο μενού μπάρας
         self.root.file_menu.entryconfig(5, state="normal", command=self.retrieve_master)
 
-        # αρχικοποίηση αντικειμένων που θα χρειαστούν ------------------------------------------------------------------
-
-
+        # αρχικοποίηση listbox και ετικέτας ----------------------------------------------------------------------------
         self.warning_label = Label(self,
                                    bg="light blue",
                                    fg="red",
