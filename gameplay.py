@@ -27,29 +27,28 @@ class Gameplay:
         next_move(self) -> str | None:
             εκτέλεση επόμενης κίνησης, επιστρέφει το όνομα του κομματιού που αιχμαλωτίστηκε
 
-        diagonal_move_is_valid(self, src: str, dest: str) -> bool:
+        __diagonal_move_is_valid(self, src: str, dest: str) -> bool:
             ελέγχει εάν η διαγώνια κίνηση ενός κομματιού είναι έγκυρη
 
-        horizontal_or_vertical_move_is_valid(self, src: str, dest: str) -> bool:
+        __horizontal_or_vertical_move_is_valid(self, src: str, dest: str) -> bool:
             ελέγχει εάν η οριζόντια/κάθετη κίνηση ενός κομματιού είναι έγκυρη
 
-        knight_move_is_valid(self, src: str, dest: str) -> bool:
+        __knight_move_is_valid(self, src: str, dest: str) -> bool:
             ελέγχει εάν η κίνηση ενός ίππου είναι έγκυρη
 
-        king_move_is_valid(self, src: str, dest: str) -> bool:
+        __king_move_is_valid(self, src: str, dest: str) -> bool:
             ελέγχει εάν η κίνηση του βασιλιά είναι έγκυρη
 
-        piece_is_not_pinned(self, src: str, dest: str, tag: str) -> bool:
+        __piece_is_not_pinned(self, src: str, dest: str, tag: str) -> bool:
             ελέγχει εάν ένα κομμάτι είναι "καρφωμένο"
     """
     def __init__(self, file_path: str, no_of_game: int):
         # αρχικοποίηση κλάσεων FilePGN και Board -----------------------------------------------------------------------
-        file = FilePGN(file_path)
         self.brd = Board()
 
         # δημιουργία λεξικού με τις επεξεργασμένες πληροφορίες του παιχνιδιού που επιλέχτηκε από το οποίο κρατάω το ----
         # key-word "moves": επιστρέφει λίστα με τις κινήσεις του συγκεκριμένου παιχνιδιού
-        self.moves = file.get_info(no_of_game)["moves"]
+        self.moves = FilePGN(file_path).get_info(no_of_game)["moves"]
 
         # αποθήκευση μήκους λίστας κινήσεων
         self.moves_length = len(self.moves)
@@ -306,7 +305,7 @@ class Gameplay:
                 # εύρεση βασιλιά (μοναδικό κομμάτι)
                 if piece.name[0] == "k" and piece.name[1] == tag:
                     # έλεγχος εάν η κίνηση του βασιλιά είναι εφικτή
-                    if self.king_move_is_valid(piece.pos, move[1:]):
+                    if self.__king_move_is_valid(piece.pos, move[1:]):
                         # μετακίνηση βασιλιά
                         return self.brd.move_piece(piece.pos, move[1:])
 
@@ -324,10 +323,10 @@ class Gameplay:
                     # έλεγχος εάν είναι βασίλισσα κατάλληλου χρώματος
                     if piece.name[0] == "q" and piece.name[1] == tag:
                         # έλεγχος εάν η διαγώνια ή η οριζόντια/κάθετη κίνηση της βασίλισσας είναι επιτρεπτή
-                        if self.diagonal_move_is_valid(src=piece.pos, dest=move[1:]) or \
-                           self.horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[1:]):
+                        if self.__diagonal_move_is_valid(src=piece.pos, dest=move[1:]) or \
+                           self.__horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[1:]):
                             # έλεγχος εάν η βασίλισσα δεν είναι καρφωμένη στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση βασίλισσας
                                 return self.brd.move_piece(piece.pos, move[1:])
 
@@ -340,10 +339,10 @@ class Gameplay:
                         # έλεγχος εάν είναι βασίλισσα κατάλληλης θέσης
                         if piece.pos[0] == move[1] or piece.pos[1] == move[1]:
                             # έλεγχος εάν η διαγώνια ή η οριζόντια/κάθετη κίνηση της βασίλισσας είναι επιτρεπτή
-                            if self.diagonal_move_is_valid(piece.pos, move[2:]) or \
-                               self.horizontal_or_vertical_move_is_valid(piece.pos, move[2:]):
+                            if self.__diagonal_move_is_valid(piece.pos, move[2:]) or \
+                               self.__horizontal_or_vertical_move_is_valid(piece.pos, move[2:]):
                                 # έλεγχος εάν η βασίλισσα δεν είναι καρφωμένη στον βασιλιά
-                                if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                                if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                     # μετακίνηση βασίλισσας
                                     return self.brd.move_piece(piece.pos, move[2:])
 
@@ -354,10 +353,10 @@ class Gameplay:
                     # έλεγχος εάν είναι βασίλισσα κατάλληλου χρώματος και κατάλληλης θέσης
                     if piece.name[0] == "q" and piece.name[1] == tag and piece.pos == move[1:3]:
                         # έλεγχος εάν η διαγώνια ή η οριζόντια/κάθετη κίνηση της βασίλισσας είναι επιτρεπτή
-                        if self.diagonal_move_is_valid(piece.pos, move[3:]) or \
-                           self.horizontal_or_vertical_move_is_valid(piece.pos, move[3:]):
+                        if self.__diagonal_move_is_valid(piece.pos, move[3:]) or \
+                           self.__horizontal_or_vertical_move_is_valid(piece.pos, move[3:]):
                             # έλεγχος εάν η βασίλισσα δεν είναι καρφωμένη στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση βασίλισσας
                                 return self.brd.move_piece(piece.pos, move[3:])
 
@@ -375,9 +374,9 @@ class Gameplay:
                     # έλεγχος εάν είναι ίππος κατάλληλου χρώματος
                     if piece.name[0] == "n" and piece.name[1] == tag:
                         # έλεγχος εάν η κίνηση του ίππου είναι επιτρεπτή
-                        if self.knight_move_is_valid(src=piece.pos, dest=move[-2:]):
+                        if self.__knight_move_is_valid(src=piece.pos, dest=move[-2:]):
                             # έλεγχος ότι ο ίππος δεν είναι καρφωμένος στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση ίππου
                                 return self.brd.move_piece(piece.pos, move[1:])
 
@@ -390,9 +389,9 @@ class Gameplay:
                         # έλεγχος εάν είναι ίππος κατάλληλης θέσης
                         if piece.pos[0] == move[1] or piece.pos[1] == move[1]:
                             # έλεγχος εάν η κίνηση του ίππου είναι επιτρεπτή
-                            if self.knight_move_is_valid(src=piece.pos, dest=move[-2:]):
+                            if self.__knight_move_is_valid(src=piece.pos, dest=move[-2:]):
                                 # έλεγχος ότι ο ίππος δεν είναι καρφωμένος στον βασιλιά
-                                if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                                if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                     # μετακίνηση ίππου
                                     return self.brd.move_piece(piece.pos, move[2:])
 
@@ -403,9 +402,9 @@ class Gameplay:
                     # έλεγχος εάν είναι ίππος κατάλληλου χρώματος και κατάλληλης θέσης
                     if piece.name[0] == "n" and piece.name[1] == tag and piece.pos == move[1:3]:
                         # έλεγχος εάν η κίνηση του ίππου είναι επιτρεπτή
-                        if self.knight_move_is_valid(src=piece.pos, dest=move[-2:]):
+                        if self.__knight_move_is_valid(src=piece.pos, dest=move[-2:]):
                             # έλεγχος ότι ο ίππος δεν είναι καρφωμένος στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση ίππου
                                 return self.brd.move_piece(piece.pos, move[3:])
 
@@ -423,9 +422,9 @@ class Gameplay:
                     # έλεγχος εάν είναι αξ/κος κατάλληλου χρώματος
                     if piece.name[0] == "b" and piece.name[1] == tag:
                         # έλεγχος εάν η διαγώνια κίνηση του αξ/κού είναι επιτρεπτή
-                        if self.diagonal_move_is_valid(src=piece.pos, dest=move[1:]):
+                        if self.__diagonal_move_is_valid(src=piece.pos, dest=move[1:]):
                             # έλεγχος ότι ο αξ/κος δεν είναι καρφωμένος στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση αξ/κού
                                 return self.brd.move_piece(piece.pos, move[1:])
 
@@ -438,9 +437,9 @@ class Gameplay:
                         # έλεγχος εάν είναι αξ/κος κατάλληλης θέσης
                         if piece.pos[0] == move[1] or piece.pos[1] == move[1]:
                             # έλεγχος εάν η διαγώνια κίνηση του αξ/κού είναι επιτρεπτή
-                            if self.diagonal_move_is_valid(src=piece.pos, dest=move[2:]):
+                            if self.__diagonal_move_is_valid(src=piece.pos, dest=move[2:]):
                                 # έλεγχος ότι ο αξ/κος δεν είναι καρφωμένος στον βασιλιά
-                                if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                                if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                     # μετακίνηση αξ/κού
                                     return self.brd.move_piece(piece.pos, move[2:])
 
@@ -451,9 +450,9 @@ class Gameplay:
                     # έλεγχος εάν είναι αξ/κος κατάλληλου χρώματος και κατάλληλης θέσης
                     if piece.name[0] == "b" and piece.name[1] == tag and piece.pos == move[1:3]:
                         # έλεγχος εάν η διαγώνια κίνηση του αξ/κού είναι επιτρεπτή
-                        if self.diagonal_move_is_valid(src=piece.pos, dest=move[3:]):
+                        if self.__diagonal_move_is_valid(src=piece.pos, dest=move[3:]):
                             # έλεγχος ότι ο αξ/κος δεν είναι καρφωμένος στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση αξ/κού
                                 return self.brd.move_piece(piece.pos, move[3:])
 
@@ -471,9 +470,9 @@ class Gameplay:
                     # έλεγχος εάν είναι πύργος κατάλληλου χρώματος
                     if piece.name[0] == "r" and piece.name[1] == tag:
                         # έλεγχος εάν η οριζόντια/κάθετη κίνηση του πύργου είναι επιτρεπτή
-                        if self.horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[1:]):
+                        if self.__horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[1:]):
                             # έλεγχος ότι ο πύργος δεν είναι καρφωμένος στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση πύργου
                                 return self.brd.move_piece(piece.pos, move[1:])
 
@@ -486,9 +485,9 @@ class Gameplay:
                         # έλεγχος εάν είναι στην κατάλληλη θέση
                         if piece.pos[0] == move[1] or piece.pos[1] == move[1]:
                             # έλεγχος εάν η οριζόντια/κάθετη κίνηση του πύργου είναι επιτρεπτή
-                            if self.horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[2:]):
+                            if self.__horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[2:]):
                                 # έλεγχος ότι ο πύργος δεν είναι καρφωμένος στον βασιλιά
-                                if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                                if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                     # μετακίνηση πύργου
                                     return self.brd.move_piece(piece.pos, move[2:])
 
@@ -499,9 +498,9 @@ class Gameplay:
                     # έλεγχος εάν είναι πύργος κατάλληλου χρώματος και κατάλληλης θέσης
                     if piece.name[0] == "r" and piece.name[1] == tag and piece.pos == move[1:3]:
                         # έλεγχος εάν η οριζόντια/κάθετη κίνηση του πύργου είναι επιτρεπτή
-                        if self.horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[1:3]):
+                        if self.__horizontal_or_vertical_move_is_valid(src=piece.pos, dest=move[1:3]):
                             # έλεγχος ότι ο πύργος δεν είναι καρφωμένος στον βασιλιά
-                            if self.piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
+                            if self.__piece_is_not_pinned(src=piece.pos, dest=move[-2:], tag=tag):
                                 # μετακίνηση πύργου
                                 return self.brd.move_piece(piece.pos, move[1:3])
 
@@ -509,7 +508,7 @@ class Gameplay:
         # σημαίνει ότι κατά πάσα πιθανότητα το αρχείο δεν είναι σωστό
         return None
 
-    def diagonal_move_is_valid(self, src: str, dest: str) -> bool:
+    def __diagonal_move_is_valid(self, src: str, dest: str) -> bool:
         """
         Ελέγχει εάν η διαγώνια κίνηση ενός κομματιού είναι έγκυρη
         Υπάρχει η πιθανότητα δύο αξιωματικοί να βρίσκονται στην ίδια διαγώνιο, ο ένας όμως να εμποδίζεται να κινηθεί από
@@ -569,7 +568,7 @@ class Gameplay:
                     return True
         return False
 
-    def horizontal_or_vertical_move_is_valid(self, src: str, dest: str) -> bool:
+    def __horizontal_or_vertical_move_is_valid(self, src: str, dest: str) -> bool:
         """
         Ελέγχει εάν η οριζόντια/κάθετη κίνηση ενός κομματιού είναι έγκυρη
         Υπάρχει η πιθανότητα δύο πύργοι να βρίσκονται στην ίδια στήλη/γραμμή, ο ένας όμως να εμποδίζεται να κινηθεί από
@@ -656,7 +655,7 @@ class Gameplay:
                     # αναζήτηση
                     return True
 
-    def knight_move_is_valid(self, src: str, dest: str) -> bool:
+    def __knight_move_is_valid(self, src: str, dest: str) -> bool:
         """
         Ελέγχει εάν η κίνηση ενός ίππου είναι έγκυρη
         Για να γίνει αυτό, εξετάζεται εάν η εμβέλεια κίνησης του ίππου είναι νόμιμη
@@ -683,7 +682,7 @@ class Gameplay:
         # διαφορετικά η κίνηση δεν είναι έγκυρη
         return False
 
-    def king_move_is_valid(self, src: str, dest: str) -> bool:
+    def __king_move_is_valid(self, src: str, dest: str) -> bool:
         """
         Ελέγχει εάν η κίνηση του βασιλιά είναι έγκυρη
         Ορίσματα:
@@ -751,7 +750,7 @@ class Gameplay:
         # απέτυχαν όλοι οι έλεγχοι, η κίνηση δεν είναι εφικτή
         return False
 
-    def piece_is_not_pinned(self, src: str, dest: str, tag: str) -> bool:
+    def __piece_is_not_pinned(self, src: str, dest: str, tag: str) -> bool:
         """
         Ελέγχει εάν ένα κομμάτι είναι "καρφωμένο"
         Όταν ένα κομμάτι εμποδίζει κάποιο αντίπαλο κομμάτι να κάνει ματ στον βασιλιά, δεν μπορεί να μετακινηθεί εκτός
