@@ -77,6 +77,7 @@ class FilePGN:
                     game_data_list.append(game_data)
                     # και η βοηθητική συμβολοσειρά αδειάζει
                     game_data = ''
+
             # προσθήκη τελευταίας σειράς κινήσεων, σε περίπτωση που το τελικό αρχείο
             # δεν τελειώνει με μία κενή σειρά
             if game_data:
@@ -92,7 +93,7 @@ class FilePGN:
         except OSError:
             return []
 
-    def get_info(self, game_no: int =0) -> dict:
+    def get_info(self, game_no: int = 0) -> dict:
         """
         Εισάγει σε λεξικό τις πληροφορίες ενός αγώνα από το αρχείο .pgn και το επιστρέφει.
         Λέξεις κλειδιά λεξικού: Event, Site, Date, White, Black, Result, Rounds, moves
@@ -108,7 +109,7 @@ class FilePGN:
                 λεξικό με τις πληροφορίες ενός αγώνα
         """
         # συνάρτηση που επιστρέφει την πληροφορίες από τις λέξεις κλειδιά της info_list
-        info_list = ["Event ", "Site ", "Date ", "Round " ,"White ", "Black ", "Result "]
+        info_list = ["Event ", "Site ", "Date ", "Round ", "White ", "Black ", "Result "]
         # αρχικοποίηση λεξικού που θα περιέχει τις πληροφορίες του αγώνα
         game_dict = {}
 
