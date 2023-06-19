@@ -117,17 +117,15 @@ class ListboxGameDisplay(Frame):
         index = self.game_listbox.curselection()
         # εάν επιλέξει κάτι...
         if index:
-            # κρατάμε το πρώτο κομμάτι του επιστρεφόμενου tuple (0, 1, 2 κλπ)
-            # και το πολλαπλασιάζουμε με το 2 ώστε να αντιστοιχεί σε κάποιο παιχνίδι από τη λίστα
-            # (βλ. pgn.py μέθοδος spilt_files)
-            index_for_games = index[0] * 2
-            # κρατάμε το πρώτο κομμάτι του επιστρεφόμενου tuple ως έχει για τις πληροφορίες του αγώνα
-            index_for_collection = index[0]
+            # κρατάμε το πρώτο κομμάτι του επιστρεφόμενου tuple (ακέραιος δείκτης αγώνα)
+            index_for_collection: int = index[0]
+            current_game_dictionary = self.game_dict_collection[index_for_collection]
+
             try:
                 # συλλογή των στιγμιοτύπων του παιχνιδιού μέσω της κλάσης GameLoader
-                game_loader = GameLoader(self.file_path, index_for_games)
+                game_loader = GameLoader(list_of_moves=current_game_dictionary["moves"])
                 # τρέχουμε το GUI (γραφική αναπαράσταση παιχνιδιού) με το συγκεκριμένο παιχνίδι
-                GUI(game_loader, self.game_dict_collection[index_for_collection])
+                GUI(game_loader, current_game_dictionary)
             except Exception as v:
                 self.warning_label.config(text=str(v))
                 self.warning_label.grid(row=1, column=1, columnspan=2, sticky="nw")
