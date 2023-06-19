@@ -50,26 +50,11 @@ class ManualGameSelector(Frame):
                                    pady=5)
 
         # αρχικοποίηση listbox που θα περιέχει τα παιχνίδια που διαβάστηκαν από το αρχείο pgn --------------------------
-        self.listbox = Listbox(self, bg="#f7ffde", width=80)
+        self.listbox = Listbox(self, bg="#f7ffde", width=80, height=20, font=("consolas", 10))
+
+        # προσθήκη μπάρας κύλισης στο listbox
         scrollbar = Scrollbar(master=self, command=self.listbox.yview)
-
-        # φόρτωση πληροφοριών που θα προβληθούν στο listbox ------------------------------------------------------------
-        # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού
-        self.game_dict_collection = []
-        # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
-        for i, num in enumerate(file.get_index_of_games()):
-            # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
-            game_dictionary = file.get_info(num)
-            # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
-            self.game_dict_collection.append(game_dictionary)
-            self.listbox.insert(i, f'{str(i + 1)+".":4}{game_dictionary["White"]} vs '
-                                   f'{game_dictionary["Black"]} '
-                                   f'({game_dictionary["Result"]})')
-
-        # τροποποίηση μεγέθους listbox αναλόγως με τον όγκο των παιχνιδιών
-        self.listbox.config(height=20,
-                            font=("consolas", 10),
-                            yscrollcommand=scrollbar.set)
+        self.listbox.config(yscrollcommand=scrollbar.set)
 
         # αρχικοποίηση κουμπιών ----------------------------------------------------------------------------------------
         self.button_run = Button(self,
@@ -98,6 +83,22 @@ class ManualGameSelector(Frame):
         self.config(bg="light blue")
         self.pack()
 
+        # φόρτωση πληροφοριών που θα προβληθούν στο listbox ------------------------------------------------------------
+        # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού
+        self.game_dict_collection = []
+        # προσθήκη παιχνιδιών που διαβάστηκαν, στο listbox
+        for i, num in enumerate(file.get_index_of_games()):
+            # δημιουργία του λεξικού με τη μέθοδο get_info της κλάσης FilePGN
+            game_dictionary = file.get_info(num)
+            # προσθήκη του λεξικού στη συλλογή με τα λεξικά του συγκεκριμένου αρχείου pgn
+            self.game_dict_collection.append(game_dictionary)
+            self.listbox.insert(i, f'{str(i + 1) + ".":4}{game_dictionary["White"]} vs '
+                                   f'{game_dictionary["Black"]} '
+                                   f'({game_dictionary["Result"]})')
+            # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
+            if i % 100 == 0:
+                self.update()
+
     def display_game(self):
         """
         Προβολή του παιχνιδιού που επιλέχθηκε
@@ -123,7 +124,7 @@ class ManualGameSelector(Frame):
                 self.warning_label.after(3000, self.warning_label.grid_forget)
         else:
             # εμφάνιση μηνύματος σφάλματος σε περίπτωση που δεν έχει γίνει επιλογή
-            self.warning_label.config(text="Select a game to run first!")
+            self.warning_label.config(text="Select a game to continue")
             self.warning_label.grid(row=1, column=0, columnspan=2, sticky="n")
             self.warning_label.after(3000, self.warning_label.grid_forget)
 

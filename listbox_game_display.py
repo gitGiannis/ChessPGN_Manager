@@ -51,29 +51,21 @@ class ListboxGameDisplay(Frame):
         self.file_path = None
 
         # αρχικοποίηση πλαισίου που θα περιέχει τα παιχνίδια που διαβάστηκαν από το αρχείο pgn -------------------------
-        self.pgn_listbox = Listbox(self,
-                                   bg="#f7ffde",
-                                   width=30,
-                                   height=20,
-                                   font=("consolas", 10))
+        self.pgn_listbox = Listbox(self, bg="#f7ffde", width=30, height=20, font=("consolas", 10))
 
-        self.game_listbox = Listbox(self,
-                                    bg="#f7ffde",
-                                    width=60,
-                                    height=20,
-                                    font=("consolas", 10))
+        self.game_listbox = Listbox(self, bg="#f7ffde", width=60, height=20, font=("consolas", 10))
 
         # δημιουργία scrollbars για τα listbox
         scrollbar1 = Scrollbar(master=self, command=self.pgn_listbox.yview)
         scrollbar2 = Scrollbar(master=self, command=self.game_listbox.yview)
 
-        # προσθήκη αρχείων pgn στο pgn_listbox
-        for item in self.pgn_list:
-            self.pgn_listbox.insert("end", item)
-
         # σύνδεση Listbox με Scrollbar
         self.pgn_listbox.config(yscrollcommand=scrollbar1.set)
         self.game_listbox.config(yscrollcommand=scrollbar2.set)
+
+        # προσθήκη αρχείων pgn στο pgn_listbox
+        for item in self.pgn_list:
+            self.pgn_listbox.insert("end", item)
 
         # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού ------------------------------------------
         self.game_dict_collection = []
@@ -142,7 +134,7 @@ class ListboxGameDisplay(Frame):
                 self.warning_label.after(3000, self.warning_label.grid_forget)
         else:
             # εμφάνιση μηνύματος σφάλματος σε περίπτωση που δεν έχει γίνει επιλογή
-            self.warning_label.config(text="Select a game to run first!")
+            self.warning_label.config(text="Select a game to continue")
             self.warning_label.grid(row=1, column=1, columnspan=2, sticky="nw")
             self.warning_label.after(3000, self.warning_label.grid_forget)
 
@@ -170,6 +162,9 @@ class ListboxGameDisplay(Frame):
                 self.game_listbox.insert(i, f'{str(i + 1) + ".":4}{game_dictionary["White"]} vs '
                                             f'{game_dictionary["Black"]} '
                                             f'({game_dictionary["Result"]})')
+                # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
+                if i % 100 == 0:
+                    self.update()
 
     def retrieve_master(self):
         """
