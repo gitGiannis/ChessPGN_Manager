@@ -32,19 +32,22 @@ class ManualGameSelector(Frame):
         __fill_listbox():
             προσθήκη παιχνιδιών στο listbox
 
+        __pack_widgets():
+            τοποθέτηση widgets
+
         retrieve_master():
             επαναφορά κύριου πλαισίου
     """
     def __init__(self, root, pgn_filepath: str):
         # κλήση της super() για αρχικοποίηση γονικής κλάσης
         super().__init__()
+        self.config(bg="light blue")
         # ορισμός master του frame
         self.root = root
         # ορισμός διεύθυνσης αρχείου
         self.__filepath = pgn_filepath
         # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού
         self.game_dict_collection = []
-
         # ενεργοποίηση επιλογής "back" στο μενού μπάρας
         self.root.file_menu.entryconfig(5, state="normal", command=self.retrieve_master)
 
@@ -59,8 +62,8 @@ class ManualGameSelector(Frame):
         self.listbox = Listbox(self, bg="#f7ffde", width=80, height=20, font=("consolas", 10))
 
         # προσθήκη μπάρας κύλισης στο listbox
-        scrollbar = Scrollbar(master=self, command=self.listbox.yview)
-        self.listbox.config(yscrollcommand=scrollbar.set)
+        self.scrollbar = Scrollbar(master=self, command=self.listbox.yview)
+        self.listbox.config(yscrollcommand=self.scrollbar.set)
 
         # αρχικοποίηση κουμπιών ----------------------------------------------------------------------------------------
         self.button_run = Button(self,
@@ -79,15 +82,8 @@ class ManualGameSelector(Frame):
                                   width=12,
                                   command=self.retrieve_master)
 
-        # τοποθέτηση στο παράθυρο --------------------------------------------------------------------------------------
-        self.listbox.grid(row=0, column=0, sticky="ne")
-        scrollbar.grid(row=0, column=1, sticky="ns")
-        self.button_back.grid(row=1, column=0, sticky="w")
-        self.button_run.grid(row=1, column=0, columnspan=2, sticky="e")
-
-        # προσθήκη πλαισίου στο κυρίως παράθυρο ------------------------------------------------------------------------
-        self.config(bg="light blue")
-        self.pack()
+        # τοποθέτηση ---------------------------------------------------------------------------------------------------
+        self.__pack_widgets()
 
         # φόρτωση πληροφοριών που θα προβληθούν στο listbox ------------------------------------------------------------
         self.__fill_listbox()
@@ -143,6 +139,19 @@ class ManualGameSelector(Frame):
                 # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
                 if i % 100 == 0:
                     self.update()
+
+    def __pack_widgets(self):
+        """
+        Τοποθετεί τα widgets στο πλαίσιο και το πλαίσιο στο κυρίως παράθυρο
+        """
+        # τοποθέτηση στο πλαίσιο
+        self.listbox.grid(row=0, column=0, sticky="ne")
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+        self.button_back.grid(row=1, column=0, sticky="w")
+        self.button_run.grid(row=1, column=0, columnspan=2, sticky="e")
+
+        # προσθήκη πλαισίου στο κυρίως παράθυρο
+        self.pack()
 
     def retrieve_master(self):
         """

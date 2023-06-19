@@ -29,14 +29,20 @@ class ListboxGameDisplay(Frame):
         load_file(self, event):
             φορτώνει τα παιχνίδια ενός αρχείου
 
+        __pack_widgets():
+            τοποθέτηση widgets
+
         retrieve_master():
             επαναφέρει το κύριο πλαίσιο
     """
     def __init__(self, root, pgn_list: list):
         # κλήση της super() για αρχικοποίηση γονικής κλάσης
         super().__init__()
+        self.config(bg="light blue")
         # ορισμός master του frame
         self.root = root
+        # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού
+        self.game_dict_collection = []
         # ενεργοποίηση επιλογής "back" στο μενού μπάρας
         self.root.file_menu.entryconfig(5, state="normal", command=self.retrieve_master)
 
@@ -48,24 +54,28 @@ class ListboxGameDisplay(Frame):
                 self.pgn_list.append(item)
 
         # αρχικοποίηση πλαισίου που θα περιέχει τα παιχνίδια που διαβάστηκαν από το αρχείο pgn -------------------------
+        # δημιουργία listbox
         self.pgn_listbox = Listbox(self, bg="#f7ffde", width=30, height=20, font=("consolas", 10))
-
         self.game_listbox = Listbox(self, bg="#f7ffde", width=60, height=20, font=("consolas", 10))
 
         # δημιουργία scrollbars για τα listbox
-        scrollbar1 = Scrollbar(master=self, command=self.pgn_listbox.yview)
-        scrollbar2 = Scrollbar(master=self, command=self.game_listbox.yview)
+        self.scrollbar1 = Scrollbar(master=self, command=self.pgn_listbox.yview)
+        self.scrollbar2 = Scrollbar(master=self, command=self.game_listbox.yview)
 
         # σύνδεση Listbox με Scrollbar
-        self.pgn_listbox.config(yscrollcommand=scrollbar1.set)
-        self.game_listbox.config(yscrollcommand=scrollbar2.set)
+        self.pgn_listbox.config(yscrollcommand=self.scrollbar1.set)
+        self.game_listbox.config(yscrollcommand=self.scrollbar2.set)
 
         # προσθήκη αρχείων pgn στο pgn_listbox
         for item in self.pgn_list:
             self.pgn_listbox.insert("end", item)
 
-        # δημιουργία πίνακα για συλλογή των game_dictionaries κάθε παιχνιδιού ------------------------------------------
-        self.game_dict_collection = []
+        # ετικέτα με σφάλμα μη επιλογής --------------------------------------------------------------------------------
+        self.warning_label = Label(self,
+                                   bg="light blue",
+                                   fg="red",
+                                   font=("consolas", 10, "bold"),
+                                   pady=5)
 
         # αρχικοποίηση κουμπιών ----------------------------------------------------------------------------------------
         self.button_run = Button(self,
@@ -87,24 +97,8 @@ class ListboxGameDisplay(Frame):
         # χειρισμός event όταν επιλέγει κάτι από το Listbox ------------------------------------------------------------
         self.pgn_listbox.bind(sequence="<<ListboxSelect>>", func=self.load_file)
 
-        # ετικέτα με σφάλμα μη επιλογής --------------------------------------------------------------------------------
-        self.warning_label = Label(self,
-                                   bg="light blue",
-                                   fg="red",
-                                   font=("consolas", 10, "bold"),
-                                   pady=5)
-
         # τοποθέτηση στο παράθυρο --------------------------------------------------------------------------------------
-        self.pgn_listbox.grid(row=0, column=0, sticky="nw")
-        self.game_listbox.grid(row=0, column=2, sticky="ne")
-        scrollbar1.grid(row=0, column=1, sticky="ns")
-        scrollbar2.grid(row=0, column=3, sticky="ns")
-        self.button_back.grid(row=1, column=0, sticky="sw")
-        self.button_run.grid(row=1, column=2, columnspan=2, sticky="se")
-
-        # προσθήκη πλαισίου στο κυρίως παράθυρο ------------------------------------------------------------------------
-        self.config(bg="light blue")
-        self.pack()
+        self.__pack_widgets()
 
     def run_game(self):
         """
@@ -167,6 +161,21 @@ class ListboxGameDisplay(Frame):
                     # εμφάνιση αποτελεσμάτων ανα εκατό, για ανανέωση του παραθύρου εάν έχουμε πολλά αρχεία
                     if i % 100 == 0:
                         self.update()
+
+    def __pack_widgets(self):
+        """
+        Τοποθετεί τα widgets στο πλαίσιο και το πλαίσιο στο κυρίως παράθυρο
+        """
+        # τοποθέτηση στο πλαίσιο
+        self.pgn_listbox.grid(row=0, column=0, sticky="nw")
+        self.game_listbox.grid(row=0, column=2, sticky="ne")
+        self.scrollbar1.grid(row=0, column=1, sticky="ns")
+        self.scrollbar2.grid(row=0, column=3, sticky="ns")
+        self.button_back.grid(row=1, column=0, sticky="sw")
+        self.button_run.grid(row=1, column=2, columnspan=2, sticky="se")
+
+        # προσθήκη πλαισίου στο κυρίως παράθυρο
+        self.pack()
 
     def retrieve_master(self):
         """
