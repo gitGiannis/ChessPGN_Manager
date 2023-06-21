@@ -78,7 +78,7 @@ class GameLoader:
         # αποθήκευση πληροφοριών για την αρχική θέση των κομματιών
         for piece in self.gameplay.brd.pieces:
             current_round.append({
-                "name": piece.name,
+                "name": piece.name[:2],
                 "row": piece.row,
                 "col": piece.col
             })
@@ -107,9 +107,9 @@ class GameLoader:
             for line in self.gameplay.brd.board:
                 for sqr in line:
                     current_round.append({
-                        "name": sqr.name,
-                        "row": int(sqr.row),
-                        "col": int(sqr.col)
+                        "name": sqr.name[:2],
+                        "row": sqr.row,
+                        "col": sqr.col
                         })
             self.info_dictionaries_per_round.append(current_round)
 
