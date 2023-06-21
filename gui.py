@@ -292,6 +292,10 @@ class GUI(Tk):
         for piece in self.game_loader.info_dictionaries_per_round[self.game_loader.round]:
             if piece["name"] == "  ":
                 self.board[piece["row"]][piece["col"]].config(image=self.blank, compound="center")
+            elif piece["name"] == "pb":
+                self.board[piece["row"]][piece["col"]].config(image=self.pb_image, compound="center")
+            elif piece["name"] == "pw":
+                self.board[piece["row"]][piece["col"]].config(image=self.pw_image, compound="center")
             elif piece["name"] == "rb":
                 self.board[piece["row"]][piece["col"]].config(image=self.rb_image, compound="center")
             elif piece["name"] == "nb":
@@ -300,13 +304,6 @@ class GUI(Tk):
                 self.board[piece["row"]][piece["col"]].config(image=self.bb_image, compound="center")
             elif piece["name"] == "qb":
                 self.board[piece["row"]][piece["col"]].config(image=self.qb_image, compound="center")
-            elif piece["name"] == "kb":
-                if self.game_loader.check_per_round[self.game_loader.round] == "b":
-                    self.board[piece["row"]][piece["col"]].config(image=self.kb_checked, compound="center")
-                else:
-                    self.board[piece["row"]][piece["col"]].config(image=self.kb_image, compound="center")
-            elif piece["name"] == "pb":
-                self.board[piece["row"]][piece["col"]].config(image=self.pb_image, compound="center")
             elif piece["name"] == "rw":
                 self.board[piece["row"]][piece["col"]].config(image=self.rw_image, compound="center")
             elif piece["name"] == "nw":
@@ -315,13 +312,16 @@ class GUI(Tk):
                 self.board[piece["row"]][piece["col"]].config(image=self.bw_image, compound="center")
             elif piece["name"] == "qw":
                 self.board[piece["row"]][piece["col"]].config(image=self.qw_image, compound="center")
+            elif piece["name"] == "kb":
+                if self.game_loader.check_per_round[self.game_loader.round] == "b":
+                    self.board[piece["row"]][piece["col"]].config(image=self.kb_checked, compound="center")
+                else:
+                    self.board[piece["row"]][piece["col"]].config(image=self.kb_image, compound="center")
             elif piece["name"] == "kw":
                 if self.game_loader.check_per_round[self.game_loader.round] == "w":
                     self.board[piece["row"]][piece["col"]].config(image=self.kw_checked, compound="center")
                 else:
                     self.board[piece["row"]][piece["col"]].config(image=self.kw_image, compound="center")
-            elif piece["name"] == "pw":
-                self.board[piece["row"]][piece["col"]].config(image=self.pw_image, compound="center")
 
     def next_move(self):
         """
