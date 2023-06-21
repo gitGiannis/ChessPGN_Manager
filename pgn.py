@@ -1,7 +1,7 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 # pgn.py: περιέχει την κλάση FilePGN για επεξεργασία ενός αρχείου .pgn                                                 #
 # -------------------------------------------------------------------------------------------------------------------- #
-from functions import get_moves_list, get_total_rounds
+from functions import get_moves_as_list, get_total_rounds
 
 
 class FilePGN:
@@ -94,11 +94,11 @@ class FilePGN:
         except IndexError:
             game_moves = ""
 
-        # προσθήκη συνολικών γύρων στο λεξικό
-        game_dict["RoundsPlayed"] = get_total_rounds(game_moves)
-
         # προσθήκη λίστας κινήσεων στο λεξικό
-        game_dict["moves"] = get_moves_list(game_moves)
+        game_dict["moves"] = get_moves_as_list(game_moves)
+
+        # προσθήκη συνολικών γύρων στο λεξικό
+        game_dict["RoundsPlayed"] = get_total_rounds(game_dict["moves"])
 
         # επιστρεφόμενη τιμή: λεξικό με όλες τις πληροφορίες του αγώνα
         return game_dict
