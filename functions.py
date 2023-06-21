@@ -5,7 +5,7 @@ from tkinter.messagebox import showinfo
 
 
 # pgn.py ---------------------------------------------------------------------------------------------------------------
-def get_total_rounds(game_moves: list) -> str:
+def get_total_rounds(processed_game_moves: list) -> str:
     """
     Επιστρέφει τον αριθμό των γύρων του παιχνιδιού
     Λαμβάνει σαν όρισμα λίστα με επεξεργασμένες κινήσεις του αγώνα και επιστρέφει συμβολοσειρά με τον τελευταίο γύρο
@@ -20,7 +20,7 @@ def get_total_rounds(game_moves: list) -> str:
     """
 
     # αποθήκευση μήκους λίστας κινήσεων για ακέραια διαίρεση
-    length = len(game_moves)
+    length = len(processed_game_moves)
     # επιστρεφόμενη τιμή είναι συμβολοσειρά με τον αριθμό γύρων του αγώνα
     return str(length // 2 if length % 2 == 0 else (length // 2) + 1)
 
